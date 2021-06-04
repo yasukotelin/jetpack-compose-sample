@@ -27,8 +27,14 @@ class HomeViewModel @Inject constructor(
     var repositories: List<Repository> by mutableStateOf(listOf())
         private set
 
+    val userPageUrl get() = "https://github.com/$userName"
+
     init {
         fetchData()
+    }
+
+    fun getRepositoryPageUrl(repository: Repository): String {
+        return "https://github.com/$userName/${repository.name}"
     }
 
     private fun fetchData() = viewModelScope.launch {

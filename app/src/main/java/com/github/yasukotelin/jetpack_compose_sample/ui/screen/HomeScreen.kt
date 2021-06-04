@@ -1,6 +1,7 @@
 package com.github.yasukotelin.jetpack_compose_sample.ui.screen
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
@@ -31,9 +32,15 @@ fun HomeScreen(
     Scaffold(
         topBar = { TopAppBar() },
     ) {
-        RepositoryList(
+        HomeScreenBody(
             user = homeViewModel.user,
             repositories = homeViewModel.repositories,
+            onClickUserCard = {
+                navController.navigate("web-view/?url=${homeViewModel.userPageUrl}")
+            },
+            onClickRepository = {
+                navController.navigate("web-view/?url=${homeViewModel.getRepositoryPageUrl(it)}")
+            }
         )
     }
 }
@@ -46,9 +53,11 @@ fun TopAppBar() {
 }
 
 @Composable
-fun RepositoryList(
+fun HomeScreenBody(
     user: User?,
-    repositories: List<Repository>
+    repositories: List<Repository>,
+    onClickUserCard: () -> Unit,
+    onClickRepository: (repository: Repository) -> Unit,
 ) {
     user ?: return
 
@@ -56,25 +65,29 @@ fun RepositoryList(
         Modifier
             .fillMaxSize()
     ) {
-        item { UserCard(user = user) }
+        item { UserCard(user = user, onClick = onClickUserCard) }
 
         item { Spacer(modifier = Modifier.size(16.dp)) }
 
         repositories.forEach { repository ->
-            item { RepositoryItem(repository = repository) }
+            item { RepositoryItem(repository = repository, onClick = onClickRepository) }
             item { Divider(Modifier.padding(start = 16.dp)) }
         }
     }
 }
 
 @Composable
-private fun UserCard(user: User) {
+private fun UserCard(
+    user: User,
+    onClick: () -> Unit,
+) {
     Card(
         modifier = Modifier
             .padding(top = 16.dp)
             .padding(horizontal = 8.dp)
             .fillMaxWidth()
-            .wrapContentHeight(),
+            .wrapContentHeight()
+            .clickable(onClick = onClick),
         elevation = 4.dp,
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -112,10 +125,14 @@ private fun UserCard(user: User) {
 }
 
 @Composable
-fun RepositoryItem(repository: Repository) {
+fun RepositoryItem(
+    repository: Repository,
+    onClick: (repository: Repository) -> Unit,
+) {
     Surface(
         Modifier
             .fillMaxWidth()
+            .clickable { onClick(repository) }
             .padding(horizontal = 16.dp)
             .height(60.dp)
     ) {
@@ -145,7 +162,7 @@ fun UserCardPreview() {
     )
     JetpackcomposesampleTheme {
         Scaffold() {
-            UserCard(user = user)
+            UserCard(user = user, onClick = {})
         }
     }
 }
