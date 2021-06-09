@@ -3,12 +3,21 @@ package com.github.yasukotelin.jetpack_compose_sample.ui.screen
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.github.yasukotelin.jetpack_compose_sample.viewmodel.WebViewModel
 
 @Composable
 fun WebViewScreen(
-    url: String
+    url: String,
+    webViewModel: WebViewModel = viewModel(),
 ) {
     AndroidView({ context ->
         WebView(context).apply {
@@ -20,8 +29,24 @@ fun WebViewScreen(
                 override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
                     return false
                 }
+
+                override fun onPageFinished(view: WebView?, url: String?) {
+                    super.onPageFinished(view, url)
+
+                    webViewModel.onPageFinished()
+                }
             }
             loadUrl(url)
         }
     })
+
+    if (webViewModel.isLoading) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = CenterHorizontally,
+        ) {
+            CircularProgressIndicator()
+        }
+    }
 }

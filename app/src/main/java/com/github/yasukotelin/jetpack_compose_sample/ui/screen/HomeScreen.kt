@@ -166,10 +166,3 @@ fun UserCardPreview() {
         }
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    JetpackcomposesampleTheme {
-    }
-}
