@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.github.yasukotelin.jetpack_compose_sample.ui.compose.Center
 import com.github.yasukotelin.jetpack_compose_sample.viewmodel.WebViewModel
 
 @Composable
@@ -41,11 +42,7 @@ fun WebViewScreen(
     })
 
     if (webViewModel.isLoading) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = CenterHorizontally,
-        ) {
+        Center {
             CircularProgressIndicator()
         }
     }
