@@ -20,6 +20,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.github.yasukotelin.jetpack_compose_sample.model.Repository
 import com.github.yasukotelin.jetpack_compose_sample.model.User
+import com.github.yasukotelin.jetpack_compose_sample.ui.compose.Center
 import com.github.yasukotelin.jetpack_compose_sample.ui.theme.JetpackcomposesampleTheme
 import com.github.yasukotelin.jetpack_compose_sample.viewmodel.HomeViewModel
 import com.google.accompanist.glide.rememberGlidePainter
@@ -59,19 +60,27 @@ fun HomeScreenBody(
     onClickUserCard: () -> Unit,
     onClickRepository: (repository: Repository) -> Unit,
 ) {
-    user ?: return
+    if (user == null) {
+        Center {
+            CircularProgressIndicator()
+        }
+    } else {
+        LazyColumn(
+            Modifier
+                .fillMaxSize()
+        ) {
+            item { UserCard(user = user, onClick = onClickUserCard) }
 
-    LazyColumn(
-        Modifier
-            .fillMaxSize()
-    ) {
-        item { UserCard(user = user, onClick = onClickUserCard) }
+            item { Spacer(modifier = Modifier.size(16.dp)) }
 
-        item { Spacer(modifier = Modifier.size(16.dp)) }
-
-        repositories.forEach { repository ->
-            item { RepositoryItem(repository = repository, onClick = onClickRepository) }
-            item { Divider(Modifier.padding(start = 16.dp)) }
+            if (repositories.isEmpty()) {
+                item { Center(modifier = Modifier.padding(top = 16.dp)) { CircularProgressIndicator() } }
+            } else {
+                repositories.forEach { repository ->
+                    item { RepositoryItem(repository = repository, onClick = onClickRepository) }
+                    item { Divider(Modifier.padding(start = 16.dp)) }
+                }
+            }
         }
     }
 }
