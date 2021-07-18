@@ -11,6 +11,6 @@ interface GithubApi {
     @GET("/users/{user}")
     suspend fun getUser(@Path("user") user: String): Response<User>
 
-    @GET("users/{user}/repos")
+    @GET("users/{user}/repos?per_page=100")
     suspend fun getUserRepository(@Path("user") user: String): Response<List<Repository>>
 }
