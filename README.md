@@ -6,9 +6,9 @@ Preview github information on jetpack compose.
 - List view
 - WebView
 
-<img src="./screenshot/home.png" width=48%>
-<img src="./screenshot/webview.png" width=48%>
-
+| HOME | Detail(WebView) |
+| ---- | ------ |
+| <img src="./screenshot/home.png"> | <img src="./screenshot/webview.png"> |
 ## Dependencies
 
 - Jetpack compose rc-02
