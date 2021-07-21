@@ -8,7 +8,7 @@ Preview github information on jetpack compose.
 
 | HOME | Detail(WebView) |
 | ---- | ------ |
-| <img src="./screenshot/home.png"> | <img src="./screenshot/webview.png"> |
+| <img src="./screenshot/home.png" width=320> | <img src="./screenshot/webview.png" width=320> |
 ## Dependencies
 
 - Jetpack compose rc-02
