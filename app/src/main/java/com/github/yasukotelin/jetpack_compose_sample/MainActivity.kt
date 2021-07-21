@@ -10,8 +10,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
-import com.github.yasukotelin.jetpack_compose_sample.ui.screen.HomeScreen
-import com.github.yasukotelin.jetpack_compose_sample.ui.screen.WebViewScreen
+import com.github.yasukotelin.jetpack_compose_sample.ui.screen.home.HomeScreen
+import com.github.yasukotelin.jetpack_compose_sample.ui.screen.webview.WebViewScreen
 import com.github.yasukotelin.jetpack_compose_sample.ui.theme.JetpackcomposesampleTheme
 import dagger.hilt.android.AndroidEntryPoint
 

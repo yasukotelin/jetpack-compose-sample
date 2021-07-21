@@ -1,4 +1,4 @@
-package com.github.yasukotelin.jetpack_compose_sample.ui.screen
+package com.github.yasukotelin.jetpack_compose_sample.ui.screen.webview
 
 import android.view.ViewGroup
 import android.webkit.WebView
@@ -6,18 +6,20 @@ import android.webkit.WebViewClient
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.github.yasukotelin.jetpack_compose_sample.ui.compose.Center
-import com.github.yasukotelin.jetpack_compose_sample.viewmodel.WebViewModel
 
 @Composable
 fun WebViewScreen(
     url: String,
     webViewModel: WebViewModel = viewModel(),
 ) {
+    val isLoading = webViewModel.isLoading.collectAsState().value
+
     AndroidView({ context ->
         WebView(context).apply {
             layoutParams = ViewGroup.LayoutParams(
@@ -39,7 +41,7 @@ fun WebViewScreen(
         }
     })
 
-    if (webViewModel.isLoading) {
+    if (isLoading) {
         Center(modifier = Modifier.padding(top = 16.dp)) {
             CircularProgressIndicator()
         }

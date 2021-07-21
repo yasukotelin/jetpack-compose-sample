@@ -1,4 +1,4 @@
-package com.github.yasukotelin.jetpack_compose_sample.ui.screen
+package com.github.yasukotelin.jetpack_compose_sample.ui.screen.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,20 +23,23 @@ import com.github.yasukotelin.jetpack_compose_sample.model.Repository
 import com.github.yasukotelin.jetpack_compose_sample.model.User
 import com.github.yasukotelin.jetpack_compose_sample.ui.compose.Center
 import com.github.yasukotelin.jetpack_compose_sample.ui.theme.JetpackcomposesampleTheme
-import com.github.yasukotelin.jetpack_compose_sample.viewmodel.HomeViewModel
 import com.google.accompanist.glide.rememberGlidePainter
+import kotlinx.coroutines.flow.collect
 
 @Composable
 fun HomeScreen(
     navController: NavController,
     homeViewModel: HomeViewModel = viewModel(),
 ) {
+    val user = homeViewModel.user.collectAsState().value
+    val repositories = homeViewModel.repositories.collectAsState().value
+
     Scaffold(
         topBar = { TopAppBar() },
     ) {
         HomeScreenBody(
-            user = homeViewModel.user,
-            repositories = homeViewModel.repositories,
+            user = user,
+            repositories = repositories,
             onClickUserCard = {
                 navController.navigate("web-view/?url=${homeViewModel.userPageUrl}")
             },
